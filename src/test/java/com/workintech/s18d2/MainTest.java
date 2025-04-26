@@ -1,10 +1,11 @@
 package com.workintech.s18d2;
 
+import com.workintech.s18d2.repository.FruitRepository;
+import com.workintech.s18d2.service.FruitServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,6 @@ class MainTest {
 
     @Mock
     private FruitRepository mockFruitRepository;
-
-
 
     private FruitServiceImpl fruitService;
 
