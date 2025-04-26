@@ -1,4 +1,4 @@
-package com.workintech.s18d2;
+package com.workintech.s18d2.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,25 +1,50 @@
 package com.workintech.s18d2.controller;
 
-// FruitController
-
-import com.workintech.s18d2.Fruit;
+import com.workintech.s18d2.entity.Fruit;
 import com.workintech.s18d2.service.FruitService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/fruits")
-public class FruitController {  // FruitController
+public class FruitController {
+    private final FruitService fruitService;
 
-    @Autowired
-    private FruitService fruitService;
+    public FruitController(FruitService fruitService) {
+        this.fruitService = fruitService;
+    }
 
     @GetMapping
-    public List<Fruit> getAllFruits() {
-        return fruitService.getAllFruits();
+    public List<Fruit> getAllFruitsAsc() {
+        return fruitService.getByPriceAsc();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Fruit> getFruitById(@PathVariable Long id) {
+        Fruit fruit = fruitService.getById(id);
+        return fruit != null ? ResponseEntity.ok(fruit) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/desc")
+    public List<Fruit> getAllFruitsDesc() {
+        return fruitService.getByPriceDesc();
+    }
+
+    @PostMapping
+    public ResponseEntity<Fruit> createOrUpdateFruit(@RequestBody Fruit fruit) {
+        return ResponseEntity.ok(fruitService.update(fruit));
+    }
+
+    @PostMapping("/{name}")
+    public List<Fruit> searchFruitsByName(@PathVariable String name) {
+        return fruitService.searchByName(name);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFruit(@PathVariable Long id) {
+        fruitService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

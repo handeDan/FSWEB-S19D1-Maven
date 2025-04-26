@@ -1,6 +1,6 @@
 package com.workintech.s18d2.service;
 
-import com.workintech.s18d2.Fruit;
+import com.workintech.s18d2.entity.Fruit;
 
 import java.util.List;
 

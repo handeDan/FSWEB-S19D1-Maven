@@ -1,15 +1,18 @@
 package com.workintech.s18d2.service;
 
-import com.workintech.s18d2.Fruit;
+import com.workintech.s18d2.entity.Fruit;
+import com.workintech.s18d2.PlantException;
 import com.workintech.s18d2.repository.FruitRepository;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class FruitServiceImpl implements FruitService {
 
-    private final FruitRepository fruitRepository;
+    @Autowired
+    private FruitRepository fruitRepository;
 
     @Autowired
     public FruitServiceImpl(FruitRepository fruitRepository) {
@@ -18,13 +21,16 @@ public class FruitServiceImpl implements FruitService {
 
     @Override
     public Fruit save(Fruit fruit) {
-        return null;
+        return fruitRepository.save(fruit);
     }
 
     @Override
     public Fruit update(Fruit fruit) {
         Fruit fruitEntity = fruitRepository.findById(fruit.getId()).orElse(null);
-        fruitRepository.update(fruitEntity);
+        fruitEntity.setName(fruit.getName());
+        fruitEntity.setPrice(fruit.getPrice());
+        fruitEntity.setFruitType(fruit.getFruitType());
+        fruitRepository.save(fruitEntity);
         return fruitEntity;
     }
 
@@ -37,9 +43,9 @@ public class FruitServiceImpl implements FruitService {
          return fruitEntity;
     }
 
-    @Override
     public Fruit getById(Long id) {
-        return fruitRepository.findById(id).orElse(null);
+        return fruitRepository.findById(id)
+                .orElseThrow(() -> new PlantException("Fruit not found with id: " + id));
     }
 
     @Override
